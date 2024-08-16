@@ -6,7 +6,7 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 08:23:04 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 08:45:21 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/16 08:57:00 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ t_renderer	init_renderer(void)
 	r.image.img = mlx_new_image(r.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	if (!r.image.img)
 		ft_panic("could not init mlx image");
-	r.image.addr = mlx_get_data_addr(r.image.img, &r.image.bits_per_pixel, &r.image.size_line, &r.image.endian);
+	r.image.addr = mlx_get_data_addr(r.image.img,
+			&r.image.bits_per_pixel, &r.image.size_line, &r.image.endian);
 	if (!r.image.addr)
 		ft_panic("could not get img data address");
 	return (r);
@@ -50,7 +51,7 @@ void	set_player_pos(char **map, t_player *p)
 {
 	int	x;
 	int	y;
-	
+
 	y = 0;
 	while (map && map[y])
 	{
@@ -75,7 +76,6 @@ void	set_player_pos(char **map, t_player *p)
 t_player	init_player(char **map)
 {
 	t_player	player;
-	
 
 	player.fov = deg_to_rad(60);
 	player.half_fov = player.fov / 2.0f;
@@ -101,5 +101,6 @@ void	setup(t_game *game, int ac, char **av)
 	game->win_height_2 = SCREEN_HEIGHT / 2;
 	mlx_do_key_autorepeaton(game->renderer.mlx);
 	mlx_hook(game->renderer.win, KeyPress, 1, keypress_hook, game);
-	mlx_hook(game->renderer.win, DestroyNotify, 0, mlx_loop_end, game->renderer.mlx);
+	mlx_hook(game->renderer.win, DestroyNotify, 0,
+		mlx_loop_end, game->renderer.mlx);
 }

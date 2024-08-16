@@ -6,7 +6,7 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 08:19:23 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 08:21:42 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/16 08:49:56 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	draw_ceiling(int x, float wall_height, t_renderer *renderer)
 	int	start;
 	int	end;
 	int	half_height;
-	
+
 	half_height = SCREEN_HEIGHT / 2;
 	start = 0;
 	end = half_height - wall_height;
@@ -33,7 +33,7 @@ void	draw_wall(int x, float wall_height, t_renderer *renderer)
 	int		start;
 	int		end;
 	int		half_height;
-	
+
 	half_height = SCREEN_HEIGHT / 2;
 	start = half_height - wall_height;
 	end = half_height + wall_height;
@@ -48,7 +48,7 @@ void	draw_floor(int x, float wall_height, t_renderer *renderer)
 	int		start;
 	int		end;
 	int		half_height;
-	
+
 	half_height = SCREEN_HEIGHT / 2;
 	start = half_height + wall_height;
 	end = SCREEN_HEIGHT - 1;
