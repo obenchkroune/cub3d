@@ -6,7 +6,7 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 02:43:12 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 20:35:01 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/16 20:43:40 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ typedef struct s_game
 {
 	t_renderer	renderer;
 	t_player	player;
-	t_texture	texture;
+	t_texture	west_texture;
+	t_texture	east_texture;
+	t_texture	north_texture;
+	t_texture	south_texture;
 	char		**map;
 	int			win_width;
 	int			win_height;

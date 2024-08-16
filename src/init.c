@@ -6,7 +6,7 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 08:23:04 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 19:22:35 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/16 20:45:51 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,16 +86,16 @@ t_player	init_player(char **map)
 	return (player);
 }
 
-void	load_textures(t_game *g)
+void	load_texture(t_game *g, t_texture *t, char *file_name)
 {
-	g->texture.image.img = mlx_xpm_file_to_image(g->renderer.mlx,
-			"textures/wall.xpm", &g->texture.width, &g->texture.height);
-	if (!g->texture.image.img)
+	t->image.img = mlx_xpm_file_to_image(g->renderer.mlx,
+			file_name, &t->width, &t->height);
+	if (!t->image.img)
 		ft_panic("could not load texture!");
-	g->texture.image.addr = mlx_get_data_addr(g->texture.image.img,
-			&g->texture.image.bits_per_pixel, &g->texture.image.size_line,
-			&g->texture.image.endian);
-	if (!g->texture.image.img)
+	t->image.addr = mlx_get_data_addr(t->image.img,
+			&t->image.bits_per_pixel, &t->image.size_line,
+			&t->image.endian);
+	if (!t->image.img)
 		ft_panic("could not get texture data addr!");
 }
 
@@ -114,7 +114,10 @@ void	setup(t_game *game, int ac, char **av)
 	game->win_height_2 = SCREEN_HEIGHT / 2;
 	game->ray_step = game->player.fov / SCREEN_WIDTH;
 	game->ray_presition = 256;
-	load_textures(game);
+	load_texture(game, &game->north_texture, "textures/wall.xpm");
+	load_texture(game, &game->south_texture, "textures/wall.xpm");
+	load_texture(game, &game->east_texture, "textures/wall.xpm");
+	load_texture(game, &game->west_texture, "textures/wall.xpm");
 	mlx_do_key_autorepeaton(game->renderer.mlx);
 	mlx_hook(game->renderer.win, KeyPress, 1, keypress_hook, game);
 	mlx_hook(game->renderer.win, DestroyNotify, 0,
