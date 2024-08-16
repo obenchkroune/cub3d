@@ -6,7 +6,7 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 08:23:23 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 20:34:57 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/16 22:14:07 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ float	get_distance(t_ray_data *data, t_vec2 *hit_pos)
 		distance = (data->map_y - data->pos.y + (1 - data->step.y) / 2) / data->ray.y;
 	if (hit_pos != NULL)
 	{
-	    hit_pos->x = data->pos.x + distance * data->ray.x;
-	    hit_pos->y = data->pos.y + distance * data->ray.y;
+	    hit_pos->x = data->side_dist.x;
+	    hit_pos->y = data->side_dist.y;
 	}
 	return (distance);
 }

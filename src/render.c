@@ -6,7 +6,7 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 08:19:23 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 20:48:34 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/16 22:07:22 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,17 @@ t_texture	*get_texture(t_game *g, t_vec2 ray)
 {
 	if (fabsf(ray.y) > fabsf(ray.x))
 	{
-		// North or South wall
 		if (ray.y > 0)
-			return &g->north_texture;  // North-facing wall
+			return &g->north_texture;
 		else
-			return &g->south_texture;  // South-facing wall
+			return &g->south_texture;
 	}
 	else
 	{
-		// East or West wall
 		if (ray.x > 0)
-			return &g->east_texture;  // East-facing wall
+			return &g->east_texture;
 		else
-			return &g->west_texture;  // West-facing wall
+			return &g->west_texture;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 08:23:04 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 20:45:51 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/16 22:05:13 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,10 @@ void	setup(t_game *game, int ac, char **av)
 	game->win_height_2 = SCREEN_HEIGHT / 2;
 	game->ray_step = game->player.fov / SCREEN_WIDTH;
 	game->ray_presition = 256;
-	load_texture(game, &game->north_texture, "textures/wall.xpm");
-	load_texture(game, &game->south_texture, "textures/wall.xpm");
-	load_texture(game, &game->east_texture, "textures/wall.xpm");
-	load_texture(game, &game->west_texture, "textures/wall.xpm");
+	load_texture(game, &game->north_texture, "textures/north_wall.xpm");
+	load_texture(game, &game->south_texture, "textures/south_wall.xpm");
+	load_texture(game, &game->east_texture, "textures/east_wall.xpm");
+	load_texture(game, &game->west_texture, "textures/west_wall.xpm");
 	mlx_do_key_autorepeaton(game->renderer.mlx);
 	mlx_hook(game->renderer.win, KeyPress, 1, keypress_hook, game);
 	mlx_hook(game->renderer.win, DestroyNotify, 0,
