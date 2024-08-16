@@ -6,14 +6,14 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 08:19:23 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 08:49:56 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/16 09:13:44 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "renderer.h"
 #include "utils.h"
 
-void	draw_ceiling(int x, float wall_height, t_renderer *renderer)
+void	draw_ceiling(t_renderer *renderer, int x, float wall_height)
 {
 	int	start;
 	int	end;
@@ -28,7 +28,7 @@ void	draw_ceiling(int x, float wall_height, t_renderer *renderer)
 		ft_rgb(0, 0, 0));
 }
 
-void	draw_wall(int x, float wall_height, t_renderer *renderer)
+void	draw_wall(t_renderer *renderer, int x, float wall_height)
 {
 	int		start;
 	int		end;
@@ -43,7 +43,7 @@ void	draw_wall(int x, float wall_height, t_renderer *renderer)
 		ft_rgb(0, 10, 150));
 }
 
-void	draw_floor(int x, float wall_height, t_renderer *renderer)
+void	draw_floor(t_renderer *renderer, int x, float wall_height)
 {
 	int		start;
 	int		end;
@@ -64,21 +64,19 @@ int	render_next_frame(t_game *g)
 	int		wall_height;
 	int		x;
 	float	ray_angle;
-	float	ray_step;
+	t_vec2	ray;
 
 	ray_angle = g->player.angle - g->player.half_fov;
-	ray_step = g->player.fov / SCREEN_WIDTH;
 	x = 0;
 	while (x < SCREEN_WIDTH)
 	{
-		distance = raycasting(ray_angle,
-				(t_vec2){g->player.x, g->player.y}, g->map);
+		distance = raycasting(ray_angle, g, &ray);
 		distance *= cos(ray_angle - g->player.angle);
 		wall_height = floor(g->win_height_2 / distance);
-		draw_ceiling(x, wall_height, &g->renderer);
-		draw_wall(x, wall_height, &g->renderer);
-		draw_floor(x, wall_height, &g->renderer);
-		ray_angle += ray_step;
+		draw_ceiling(&g->renderer, x, wall_height);
+		draw_wall(&g->renderer, x, wall_height); // TODO: render a texture instad of a solid color
+		draw_floor(&g->renderer, x, wall_height);
+		ray_angle += g->ray_step;
 		x++;
 	}
 	mlx_put_image_to_window(g->renderer.mlx, g->renderer.win,
