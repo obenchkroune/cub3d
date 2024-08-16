@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hooks.h                                            :+:      :+:    :+:   */
+/*   normalize_angle.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/16 08:22:32 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 08:22:33 by obenchkr         ###   ########.fr       */
+/*   Created: 2024/08/16 08:35:29 by obenchkr          #+#    #+#             */
+/*   Updated: 2024/08/16 08:41:35 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#include "utils.h"
 
-#include "cub3d.h"
-#include <X11/keysym.h>
-
-int	keypress_hook(int keycode, t_game *g);
+float	normalize_angle(float angle)
+{
+	angle = fmod(angle, TWO_PI);
+	if (angle < 0)
+		angle += TWO_PI;
+	return (angle);
+}

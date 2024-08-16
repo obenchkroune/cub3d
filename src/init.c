@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/16 08:23:04 by obenchkr          #+#    #+#             */
+/*   Updated: 2024/08/16 08:45:21 by obenchkr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 #include "utils.h"
 #include "hooks.h"
@@ -34,14 +46,11 @@ float	get_player_angle(char c)
 	exit(ft_error(ERR_NO_PLAYER));
 }
 
-t_player	init_player(char **map)
+void	set_player_pos(char **map, t_player *p)
 {
-	t_player	c;
-	int			x;
-	int			y;
-
-	c.fov = deg_to_rad(60);
-	c.half_fov = c.fov / 2.0f;
+	int	x;
+	int	y;
+	
 	y = 0;
 	while (map && map[y])
 	{
@@ -50,16 +59,31 @@ t_player	init_player(char **map)
 		{
 			if (ft_strchr("NSEW", map[y][x]) != NULL)
 			{
-				c.pos = (t_vec2){x + 0.5, y + 0.5};
-				c.angle = get_player_angle(map[y][x]);
+				p->x = x + 0.5;
+				p->y = y + 0.5;
+				p->angle = get_player_angle(map[y][x]);
 				map[y][x] = '0';
-				return (c);
+				return ;
 			}
 			x++;
 		}
 		y++;
 	}
 	exit(ft_error(ERR_NO_PLAYER));
+}
+
+t_player	init_player(char **map)
+{
+	t_player	player;
+	
+
+	player.fov = deg_to_rad(60);
+	player.half_fov = player.fov / 2.0f;
+	set_player_pos(map, &player);
+	player.radius = 5.0f;
+	player.movement_speed = 0.1f;
+	player.turn_speed = deg_to_rad(5);
+	return (player);
 }
 
 void	setup(t_game *game, int ac, char **av)
@@ -71,6 +95,10 @@ void	setup(t_game *game, int ac, char **av)
 	game->map = parse_map(av[1]);
 	game->renderer = init_renderer();
 	game->player = init_player(game->map);
+	game->win_width = SCREEN_WIDTH;
+	game->win_width_2 = SCREEN_WIDTH / 2;
+	game->win_height = SCREEN_HEIGHT;
+	game->win_height_2 = SCREEN_HEIGHT / 2;
 	mlx_do_key_autorepeaton(game->renderer.mlx);
 	mlx_hook(game->renderer.win, KeyPress, 1, keypress_hook, game);
 	mlx_hook(game->renderer.win, DestroyNotify, 0, mlx_loop_end, game->renderer.mlx);

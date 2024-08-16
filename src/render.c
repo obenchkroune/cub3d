@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/16 08:19:23 by obenchkr          #+#    #+#             */
+/*   Updated: 2024/08/16 08:21:42 by obenchkr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "renderer.h"
 #include "utils.h"
 
@@ -46,31 +58,31 @@ void	draw_floor(int x, float wall_height, t_renderer *renderer)
 		ft_rgb(100, 100, 100));
 }
 
-int	render_next_frame(t_game *game)
+int	render_next_frame(t_game *g)
 {
 	float	distance;
 	int		wall_height;
 	int		x;
 	float	ray_angle;
 	float	ray_step;
-	int		half_height;
 
-	half_height = SCREEN_HEIGHT / 2;
-	ray_angle = game->player.angle - game->player.half_fov;
-	ray_step = game->player.fov / SCREEN_WIDTH;
+	ray_angle = g->player.angle - g->player.half_fov;
+	ray_step = g->player.fov / SCREEN_WIDTH;
 	x = 0;
 	while (x < SCREEN_WIDTH)
 	{
-		distance = raycasting(ray_angle, game->player.pos, game->map);
-		// distance *= cos(ray_angle - game->player.angle);
-		wall_height = half_height / distance;
-		draw_ceiling(x, wall_height, &game->renderer);
-		draw_wall(x, wall_height, &game->renderer);
-		draw_floor(x, wall_height, &game->renderer);
+		distance = raycasting(ray_angle,
+				(t_vec2){g->player.x, g->player.y}, g->map);
+		distance *= cos(ray_angle - g->player.angle);
+		wall_height = floor(g->win_height_2 / distance);
+		draw_ceiling(x, wall_height, &g->renderer);
+		draw_wall(x, wall_height, &g->renderer);
+		draw_floor(x, wall_height, &g->renderer);
 		ray_angle += ray_step;
 		x++;
 	}
-	mlx_put_image_to_window(game->renderer.mlx, game->renderer.win, game->renderer.image.img, 0, 0);
+	mlx_put_image_to_window(g->renderer.mlx, g->renderer.win,
+		g->renderer.image.img, 0, 0);
 	return (0);
 }
 
