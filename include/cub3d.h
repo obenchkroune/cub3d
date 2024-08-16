@@ -6,7 +6,7 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 02:43:12 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 22:35:21 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/16 22:51:46 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,28 +34,25 @@ typedef struct s_game
 	t_texture	north_texture;
 	t_texture	south_texture;
 	char		**map;
-	int			win_width;
 	int			win_height;
-	int			win_width_2;
 	int			win_height_2;
 	float		ray_step;
-	float		ray_presition;
 }	t_game;
 
-typedef struct s_ray_data
+typedef struct s_ray
 {
-	t_vec2	ray;
+	t_vec2	dir;
 	int		map_x;
 	int		map_y;
 	t_vec2	pos;
 	t_vec2	step;
 	int		side;
-	t_vec2	delta_dist;
+	t_vec2	delta;
 	t_vec2	side_dist;
 	t_vec2	hit;
-}	t_ray_data;
+}	t_ray;
 
 char	**parse_map(const char *file_name);
 void	setup(t_game *game, int ac, char **av);
 void	render(t_game *game);
-float	raycasting(float angle, t_game *game, t_ray_data *data_ptr);
+float	raycasting(float angle, t_game *game, t_ray *data_ptr);

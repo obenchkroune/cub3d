@@ -6,7 +6,7 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 08:22:42 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 19:18:17 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/16 23:03:08 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,3 +27,7 @@ void	ft_free_matrix(char **mat);
 void	plot_pixel(t_image *img, int x, int y, int color);
 int		get_pixel_color(t_image *img, int x, int y);
 void	draw_verical_line(t_image *image, t_vec2 start, t_vec2 end, int color);
+void	load_texture(t_game *g, t_texture *t, char *file_name);
+void	draw_ceiling(t_renderer *renderer, int x, float wall_height);
+void	draw_wall(t_game *g, int x, float wall_height, t_ray *data);
+void	draw_floor(t_renderer *renderer, int x, float wall_height);

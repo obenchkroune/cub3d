@@ -6,7 +6,7 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 08:23:23 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 22:36:16 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/16 23:07:00 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,77 +14,79 @@
 #include <math.h>
 #include "utils.h"
 
-void	init_ray_data(t_ray_data *data)
+void	init_ray_data(t_ray *ray)
 {
-	data->map_x = (int)data->pos.x;
-	data->map_y = (int)data->pos.y;
-	data->delta_dist.x = fabs(1 / data->ray.x);
-	data->delta_dist.y = fabs(1 / data->ray.y);
-	if (data->ray.x < 0)
+	ray->map_x = (int)ray->pos.x;
+	ray->map_y = (int)ray->pos.y;
+	ray->delta.x = fabs(1 / ray->dir.x);
+	ray->delta.y = fabs(1 / ray->dir.y);
+	if (ray->dir.x < 0)
 	{
-		data->step.x = -1;
-		data->side_dist.x = (data->pos.x - data->map_x) * data->delta_dist.x;
+		ray->step.x = -1;
+		ray->side_dist.x = (ray->pos.x - ray->map_x) * ray->delta.x;
 	}
 	else
 	{
-		data->step.x = 1;
-		data->side_dist.x = (data->map_x + 1.0 - data->pos.x) * data->delta_dist.x;
+		ray->step.x = 1;
+		ray->side_dist.x = (ray->map_x + 1.0 - ray->pos.x) * ray->delta.x;
 	}
-	if (data->ray.y < 0)
+	if (ray->dir.y < 0)
 	{
-		data->step.y = -1;
-		data->side_dist.y = (data->pos.y - data->map_y) * data->delta_dist.y;
+		ray->step.y = -1;
+		ray->side_dist.y = (ray->pos.y - ray->map_y) * ray->delta.y;
 	}
 	else
 	{
-		data->step.y = 1;
-		data->side_dist.y = (data->map_y + 1.0 - data->pos.y) * data->delta_dist.y;
+		ray->step.y = 1;
+		ray->side_dist.y = (ray->map_y + 1.0 - ray->pos.y) * ray->delta.y;
 	}
 }
 
-float	get_distance(t_ray_data *data)
+float	get_distance(t_ray *ray)
 {
 	float	distance;
-	
-	if (data->side == 0)
+
+	if (ray->side == 0)
 	{
-		distance = (data->map_x - data->pos.x + (1 - data->step.x) / 2) / data->ray.x;
-        data->hit.x = data->map_x;
-		data->hit.y = data->pos.y + distance * data->ray.y;
+		distance = (ray->map_x - ray->pos.x + (1 - ray->step.x) / 2)
+			/ ray->dir.x;
+		ray->hit.x = ray->map_x;
+		ray->hit.y = ray->pos.y + distance * ray->dir.y;
 	}
 	else
 	{
-		distance = (data->map_y - data->pos.y + (1 - data->step.y) / 2) / data->ray.y;
-		data->hit.x = data->pos.x + distance * data->ray.x;
-		data->hit.y = data->map_y;
+		distance = (ray->map_y - ray->pos.y + (1 - ray->step.y) / 2)
+			/ ray->dir.y;
+		ray->hit.x = ray->pos.x + distance * ray->dir.x;
+		ray->hit.y = ray->map_y;
 	}
 	return (distance);
 }
 
-float	raycasting(float angle, t_game *game, t_ray_data *data_ptr)
+float	raycasting(float angle, t_game *game, t_ray *ray_ptr)
 {
-	t_ray_data	data;
-	float		distance;
+	t_ray	ray;
+	float	distance;
 
-	data.pos = (t_vec2){game->player.x, game->player.y};
-	data.ray = (t_vec2){cos(angle), sin(angle)};
-	init_ray_data(&data);
-	while (game->map[data.map_y][data.map_x] == '0')
+	ray.pos = (t_vec2){game->player.x, game->player.y};
+	ray.dir = (t_vec2){cos(angle), sin(angle)};
+	init_ray_data(&ray);
+	while (game->map[ray.map_y][ray.map_x] == '0')
 	{
-		if (data.side_dist.x < data.side_dist.y)
+		if (ray.side_dist.x < ray.side_dist.y)
 		{
-			data.side_dist.x += data.delta_dist.x;
-			data.map_x += data.step.x;
-			data.side = 0;
+			ray.side_dist.x += ray.delta.x;
+			ray.map_x += ray.step.x;
+			ray.side = 0;
 		}
 		else
 		{
-			data.side_dist.y += data.delta_dist.y;
-			data.map_y += data.step.y;
-			data.side = 1;
+			ray.side_dist.y += ray.delta.y;
+			ray.map_y += ray.step.y;
+			ray.side = 1;
 		}
 	}
-	distance = get_distance(&data);
-	*data_ptr = data;
+	distance = get_distance(&ray);
+	*ray_ptr = ray;
 	return (distance);
 }

@@ -6,7 +6,7 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 08:22:38 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 19:10:38 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/16 22:43:01 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include <mlx.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define WINDOW_TITLE "Cub3D"
 #define SCREEN_WIDTH 1024
@@ -40,6 +41,7 @@ typedef struct s_renderer
 	void		*mlx;
 	void		*win;
 	t_image		image;
+	bool		re_render;
 }	t_renderer;
 
 t_renderer	init_renderer(void);

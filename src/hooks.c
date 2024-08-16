@@ -6,7 +6,7 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 08:23:00 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 08:52:10 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/16 22:44:26 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	turn_left(t_player *player)
 
 int	keypress_hook(int keycode, t_game *game)
 {
+	game->renderer.re_render = true;
 	if (keycode == XK_Escape)
 		mlx_loop_end(game->renderer.mlx);
 	else if (keycode == XK_Right)

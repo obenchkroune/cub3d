@@ -6,112 +6,23 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 08:19:23 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 22:36:41 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/16 23:03:13 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "renderer.h"
 #include "utils.h"
 
-void	draw_ceiling(t_renderer *renderer, int x, float wall_height)
-{
-	int	start;
-	int	end;
-	int	half_height;
-
-	half_height = SCREEN_HEIGHT / 2;
-	start = 0;
-	end = half_height - wall_height;
-	draw_verical_line(&renderer->image,
-		(t_vec2){x, start},
-		(t_vec2){x, end},
-		ft_rgb(0, 0, 0));
-}
-
-// void	draw_wall(t_renderer *renderer, int x, float wall_height)
-// {
-// 	int		start;
-// 	int		end;
-// 	int		half_height;
-
-// 	half_height = SCREEN_HEIGHT / 2;
-// 	start = half_height - wall_height;
-// 	end = half_height + wall_height;
-// 	draw_verical_line(&renderer->image,
-// 		(t_vec2){x, start},
-// 		(t_vec2){x, end},
-// 		ft_rgb(0, 10, 150));
-// }
-
-t_texture	*get_texture(t_game *g, t_ray_data *data)
-{
-	if (data->side == 0)
-	{
-		if (data->ray.x > 0)
-			return &g->west_texture;
-		else
-			return &g->east_texture;
-	}
-	else
-	{
-		if (data->ray.y > 0)
-			return &g->north_texture;
-		else
-			return &g->south_texture;
-	}
-}
-
-void	draw_wall(t_game *g, int x, float wall_height, t_ray_data *data)
-{
-	float		texture_x;
-	float		y;
-	int			i;
-	int			start_y;
-	int			end_y;
-	t_texture	*t;
-
-	t = get_texture(g, data);
-	texture_x = (int)(fmodf(data->hit.x + data->hit.y, 1.0f) * t->width);
-	y = g->win_height_2 - wall_height;
-	start_y = (int)y;
-	end_y = (int)(y + 2.0f * wall_height);
-	if (start_y < 0)
-		start_y = 0;
-	if (end_y >= g->win_height)
-		end_y = g->win_height - 1;
-	i = start_y;
-	while (i < end_y)
-	{
-		plot_pixel(&g->renderer.image, x, i, get_pixel_color(&t->image,
-				(int)texture_x, (int)(((i - y) / (2.0f * wall_height))
-					* t->height) % t->height));
-		i++;
-	}
-}
-
-void	draw_floor(t_renderer *renderer, int x, float wall_height)
-{
-	int		start;
-	int		end;
-	int		half_height;
-
-	half_height = SCREEN_HEIGHT / 2;
-	start = half_height + wall_height;
-	end = SCREEN_HEIGHT - 1;
-	draw_verical_line(&renderer->image,
-		(t_vec2){x, start},
-		(t_vec2){x, end},
-		ft_rgb(100, 100, 100));
-}
-
 int	render_next_frame(t_game *g)
 {
-	float		distance;
-	int			wall_height;
-	int			x;
-	float		ray_angle;
-	t_ray_data	data;
+	float	distance;
+	int		wall_height;
+	int		x;
+	float	ray_angle;
+	t_ray	data;
 
+	if (!g->renderer.re_render)
+		return (1);
 	ray_angle = g->player.angle - g->player.half_fov;
 	x = 0;
 	while (x < SCREEN_WIDTH)
@@ -127,7 +38,7 @@ int	render_next_frame(t_game *g)
 	}
 	mlx_put_image_to_window(g->renderer.mlx, g->renderer.win,
 		g->renderer.image.img, 0, 0);
-	mlx_do_sync(g->renderer.mlx);
+	g->renderer.re_render = false;
 	return (0);
 }
 
