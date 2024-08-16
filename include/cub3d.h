@@ -6,7 +6,7 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 02:43:12 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 20:43:40 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/16 22:35:21 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,10 @@ typedef struct s_ray_data
 	int		side;
 	t_vec2	delta_dist;
 	t_vec2	side_dist;
+	t_vec2	hit;
 }	t_ray_data;
 
 char	**parse_map(const char *file_name);
 void	setup(t_game *game, int ac, char **av);
 void	render(t_game *game);
-float	raycasting(float angle, t_game *game, t_vec2 *data);
+float	raycasting(float angle, t_game *game, t_ray_data *data_ptr);

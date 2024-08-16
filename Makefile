@@ -1,7 +1,7 @@
 NAME            =   cub3d
 
 CC              =   cc
-CFLAGS          =   -Wall -Werror -Wextra -Iinclude -Ilibft -MMD -MP -g3 -fsanitize=address
+CFLAGS          =   -Werror -Iinclude -Ilibft -MMD -MP -g3 -fsanitize=address
 LDFLAGS         =   -lmlx -lX11 -lXext -lm -Llibft -lft
 
 BUILD_DIR       =   build

@@ -6,7 +6,7 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 08:19:23 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 22:07:22 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/16 22:36:41 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,25 @@ void	draw_ceiling(t_renderer *renderer, int x, float wall_height)
 // 		ft_rgb(0, 10, 150));
 // }
 
-t_texture	*get_texture(t_game *g, t_vec2 ray)
+t_texture	*get_texture(t_game *g, t_ray_data *data)
 {
-	if (fabsf(ray.y) > fabsf(ray.x))
+	if (data->side == 0)
 	{
-		if (ray.y > 0)
+		if (data->ray.x > 0)
+			return &g->west_texture;
+		else
+			return &g->east_texture;
+	}
+	else
+	{
+		if (data->ray.y > 0)
 			return &g->north_texture;
 		else
 			return &g->south_texture;
 	}
-	else
-	{
-		if (ray.x > 0)
-			return &g->east_texture;
-		else
-			return &g->west_texture;
-	}
 }
 
-void	draw_wall(t_game *g, int x, float wall_height, t_vec2 ray)
+void	draw_wall(t_game *g, int x, float wall_height, t_ray_data *data)
 {
 	float		texture_x;
 	float		y;
@@ -70,8 +70,8 @@ void	draw_wall(t_game *g, int x, float wall_height, t_vec2 ray)
 	int			end_y;
 	t_texture	*t;
 
-	t = get_texture(g, ray);
-	texture_x = (int)(fmodf(ray.x + ray.y, 1.0f) * t->width);
+	t = get_texture(g, data);
+	texture_x = (int)(fmodf(data->hit.x + data->hit.y, 1.0f) * t->width);
 	y = g->win_height_2 - wall_height;
 	start_y = (int)y;
 	end_y = (int)(y + 2.0f * wall_height);
@@ -106,21 +106,21 @@ void	draw_floor(t_renderer *renderer, int x, float wall_height)
 
 int	render_next_frame(t_game *g)
 {
-	float	distance;
-	int		wall_height;
-	int		x;
-	float	ray_angle;
-	t_vec2	ray;
+	float		distance;
+	int			wall_height;
+	int			x;
+	float		ray_angle;
+	t_ray_data	data;
 
 	ray_angle = g->player.angle - g->player.half_fov;
 	x = 0;
 	while (x < SCREEN_WIDTH)
 	{
-		distance = raycasting(ray_angle, g, &ray);
+		distance = raycasting(ray_angle, g, &data);
 		distance *= cos(ray_angle - g->player.angle);
 		wall_height = floor(g->win_height_2 / distance);
 		draw_ceiling(&g->renderer, x, wall_height);
-		draw_wall(g, x, wall_height, ray);
+		draw_wall(g, x, wall_height, &data);
 		draw_floor(&g->renderer, x, wall_height);
 		ray_angle += g->ray_step;
 		x++;
