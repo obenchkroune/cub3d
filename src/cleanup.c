@@ -13,9 +13,9 @@ void	ft_free_matrix(char **mat)
 
 void	cleanup(t_game *game)
 {
-	mlx_destroy_image(game->r.mlx, game->r.img);
-	mlx_destroy_window(game->r.mlx, game->r.win);
-	mlx_destroy_display(game->r.mlx);
-	free(game->r.mlx);
+	mlx_destroy_image(game->renderer.mlx, game->renderer.image.img);
+	mlx_destroy_window(game->renderer.mlx, game->renderer.win);
+	mlx_destroy_display(game->renderer.mlx);
+	free(game->renderer.mlx);
 	ft_free_matrix(game->map);
 }
