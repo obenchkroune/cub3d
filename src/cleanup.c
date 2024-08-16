@@ -6,7 +6,7 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 08:22:50 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 08:22:51 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/16 19:46:17 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	ft_free_matrix(char **mat)
 void	cleanup(t_game *game)
 {
 	mlx_destroy_image(game->renderer.mlx, game->renderer.image.img);
+	mlx_destroy_image(game->renderer.mlx, game->texture.image.img);
 	mlx_destroy_window(game->renderer.mlx, game->renderer.win);
 	mlx_destroy_display(game->renderer.mlx);
 	free(game->renderer.mlx);

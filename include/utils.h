@@ -6,7 +6,7 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 08:22:42 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 08:37:20 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/16 19:18:17 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,5 @@ float	normalize_angle(float angle);
 void	cleanup(t_game *g);
 void	ft_free_matrix(char **mat);
 void	plot_pixel(t_image *img, int x, int y, int color);
+int		get_pixel_color(t_image *img, int x, int y);
 void	draw_verical_line(t_image *image, t_vec2 start, t_vec2 end, int color);
