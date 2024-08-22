@@ -6,14 +6,14 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 08:19:23 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 23:03:13 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/22 08:47:44 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "renderer.h"
 #include "utils.h"
 
-int	render_next_frame(t_game *g)
+static int	render_next_frame(t_game *g)
 {
 	float	distance;
 	int		wall_height;

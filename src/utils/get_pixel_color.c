@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec2.h                                             :+:      :+:    :+:   */
+/*   get_pixel_color.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/16 08:22:46 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/22 08:42:55 by obenchkr         ###   ########.fr       */
+/*   Created: 2024/08/22 08:46:59 by obenchkr          #+#    #+#             */
+/*   Updated: 2024/08/22 08:47:07 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#include "utils.h"
 
-typedef struct s_vec2
+int	get_pixel_color(t_image *img, int x, int y)
 {
-	float	x;
-	float	y;
-}	t_vec2;
+	char	*dst;
 
-t_vec2	vec2_rotate(t_vec2 v, float angle);
-t_vec2	vec2_normalize(t_vec2 v);
-t_vec2	new_vec2(float x, float y);
+	dst = img->addr + (y * img->size_line + x * (img->bits_per_pixel / 8));
+	return (*(unsigned int *)dst);
+}
