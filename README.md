@@ -1,5 +1,9 @@
 # TODO
 
+- [ ] add map validation
+
+- [ ] parse texture paths from the map file and use them
+
 - [ ] add minimap
 
 - [ ] add animated textures
