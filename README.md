@@ -1,9 +1,9 @@
 # TODO
 
-[ ] add minimap
+- [ ] add minimap
 
-[ ] add animated textures
+- [ ] add animated textures
 
-[ ] rotate the angle using the mouse
+- [ ] rotate the angle using the mouse
 
-[ ] add doors that can open and close
+- [ ] add doors that can open and close
