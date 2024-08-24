@@ -6,7 +6,7 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 23:02:07 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/16 23:07:12 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/24 16:34:49 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,29 +45,37 @@ void	draw_ceiling(t_renderer *renderer, int x, float wall_height)
 		ft_rgb(0, 0, 0));
 }
 
+int	get_texture_y_cord(t_texture *t, int y, int start, float wall_height)
+{
+	float	pixel_index;
+
+	pixel_index = (y - start) / (2.0f * wall_height);
+	return (fmodf((pixel_index * t->height), t->height));
+}
+
 void	draw_wall(t_game *g, int x, float wall_height, t_ray *data)
 {
-	float		texture_x;
-	int			i;
+	int			y;
 	int			start;
 	int			end;
 	t_texture	*t;
+	t_vec2		t_cord;
 
 	t = get_texture(g, data);
-	texture_x = (int)(fmodf(data->hit.x + data->hit.y, 1.0f) * t->width);
+	t_cord.x = fmodf(data->hit.x + data->hit.y, 1.0f) * t->width;
 	start = g->win_height_2 - wall_height;
 	end = (int)(start + 2.0f * wall_height);
 	if (end >= g->win_height)
 		end = g->win_height - 1;
-	i = start;
-	if (i < 0)
-		i = 0;
-	while (i < end)
+	y = start;
+	if (y < 0)
+		y = 0;
+	while (y < end)
 	{
-		plot_pixel(&g->renderer.image, x, i, get_pixel_color(&t->image,
-				(int)texture_x, (int)(((i - start) / (2.0f * wall_height))
-					* t->height) % t->height));
-		i++;
+		t_cord.y = get_texture_y_cord(t, y, start, wall_height);
+		plot_pixel(&g->renderer.image, x, y,
+			get_pixel_color(&t->image, t_cord.x, t_cord.y));
+		y++;
 	}
 }
 
