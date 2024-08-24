@@ -6,7 +6,7 @@
 /*   By: obenchkr <obenchkr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 23:02:07 by obenchkr          #+#    #+#             */
-/*   Updated: 2024/08/24 16:34:49 by obenchkr         ###   ########.fr       */
+/*   Updated: 2024/08/24 17:30:33 by obenchkr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ void	draw_ceiling(t_renderer *renderer, int x, float wall_height)
 
 int	get_texture_y_cord(t_texture *t, int y, int start, float wall_height)
 {
-	float	pixel_index;
+	float	normalized_y;
 
-	pixel_index = (y - start) / (2.0f * wall_height);
-	return (fmodf((pixel_index * t->height), t->height));
+	normalized_y = (y - start) / (2.0f * wall_height);
+	return (fmodf((normalized_y * t->height), t->height));
 }
 
 void	draw_wall(t_game *g, int x, float wall_height, t_ray *data)
